@@ -1,0 +1,19 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @employee %>
+
+<div>
+  <%= link_to "Edit this employee", edit_employee_path(@employee) %> |
+  <%= link_to "Back to employees", employees_path %>
+
+  <%= button_to "Destroy this employee", @employee, method: :delete %>
+</div>
+<div>
+<h3>Payroll</h3>
+
+<p>Working Days: <%= @employee.working_days %></p>
+<p>OT Hours: <%= @employee.ot_hours %></p>
+<p>OT Pay: <%= @employee.ot_pay %></p>
+<p>Tax: <%= @employee.tax %></p>
+<p>Net Pay: <%= @employee.net_pay %></p>
+</div

@@ -1,0 +1,32 @@
+<%= form_with(model: attendance) do |form| %>
+  <% if attendance.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
+
+      <ul>
+        <% attendance.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :employee_id, style: "display: block" %>
+    <%= form.text_field :employee_id %>
+  </div>
+
+  <div>
+    <%= form.label :check_in, style: "display: block" %>
+    <%= form.datetime_field :check_in %>
+  </div>
+
+  <div>
+    <%= form.label :check_out, style: "display: block" %>
+    <%= form.datetime_field :check_out %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
