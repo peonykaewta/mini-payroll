@@ -1,9 +1,11 @@
-<%= form_with(model: attendance) do |form| %>
+<%= form_with(model: attendance, class: "space-y-6") do |form| %>
   <% if attendance.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:</h2>
+    <div class="rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+      <h2 class="font-semibold">
+        <%= pluralize(attendance.errors.count, "error") %> prohibited this attendance from being saved:
+      </h2>
 
-      <ul>
+      <ul class="mt-2 list-disc space-y-1 pl-5">
         <% attendance.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,22 +13,50 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :employee_id, style: "display: block" %>
-    <%= form.text_field :employee_id %>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div class="sm:col-span-2">
+      <%= form.label :employee_id, "Employee", class: "block text-sm font-medium text-slate-700" %>
+      <%= form.collection_select :employee_id,
+                                 Employee.order(:name),
+                                 :id,
+                                 :name,
+                                 { prompt: "เลือกพนักงาน" },
+                                 class: "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900" %>
+      <p class="mt-1 text-xs text-slate-500">
+        พนักงาน 1 คนสามารถเข้างานได้ 1 ครั้งต่อวัน
+      </p>
+    </div>
+
+    <div>
+      <%= form.label :check_in, class: "block text-sm font-medium text-slate-700" %>
+      <%= form.datetime_field :check_in,
+                              class: "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900" %>
+      <p class="mt-1 text-xs text-slate-500">
+        วันและเวลาที่เริ่มเข้างาน (Check in)
+      </p>
+    </div>
+
+    <div>
+      <%= form.label :check_out, class: "block text-sm font-medium text-slate-700" %>
+      <%= form.datetime_field :check_out,
+                              class: "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900" %>
+      <p class="mt-1 text-xs text-slate-500">
+        ต้องมากกว่าช่วงเวลา Check in และถ้าเวลารวมเกิน 8 ชั่วโมงจะถูกนับเป็น OT
+      </p>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :check_in, style: "display: block" %>
-    <%= form.datetime_field :check_in %>
-  </div>
+  <div class="flex items-center justify-end gap-3">
+    <% if attendance.persisted? %>
+      <%= link_to "Cancel",
+                  attendance_path(attendance),
+                  class: "text-sm font-medium text-slate-500 hover:text-slate-800" %>
+    <% else %>
+      <%= link_to "Cancel",
+                  attendances_path,
+                  class: "text-sm font-medium text-slate-500 hover:text-slate-800" %>
+    <% end %>
 
-  <div>
-    <%= form.label :check_out, style: "display: block" %>
-    <%= form.datetime_field :check_out %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit class: "inline-flex items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800" %>
   </div>
 <% end %>

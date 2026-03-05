@@ -1,11 +1,22 @@
 <% content_for :title, "New employee" %>
 
-<h1>New employee</h1>
+<div class="space-y-6">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
+        New employee
+      </h1>
+      <p class="mt-1 text-sm text-slate-500">
+        เพิ่มข้อมูลพนักงานคนใหม่เข้าสู่ระบบ
+      </p>
+    </div>
 
-<%= render "form", employee: @employee %>
+    <%= link_to "Back to employees",
+                employees_path,
+                class: "inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50" %>
+  </div>
 
-<br>
-
-<div>
-  <%= link_to "Back to employees", employees_path %>
+  <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+    <%= render "form", employee: @employee %>
+  </div>
 </div>

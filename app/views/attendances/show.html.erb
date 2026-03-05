@@ -1,10 +1,33 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Attendance detail" %>
 
-<%= render @attendance %>
+<div class="space-y-6">
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
+        Attendance detail
+      </h1>
+      <p class="mt-1 text-sm text-slate-500">
+        <span class="font-medium text-slate-800"><%= @attendance.employee&.name || "Employee ##{@attendance.employee_id}" %></span>
+        — <%= @attendance.check_in&.to_date %>
+      </p>
+    </div>
 
-<div>
-  <%= link_to "Edit this attendance", edit_attendance_path(@attendance) %> |
-  <%= link_to "Back to attendances", attendances_path %>
+    <div class="flex flex-wrap gap-2 text-sm">
+      <%= link_to "Edit",
+                  edit_attendance_path(@attendance),
+                  class: "inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 shadow-sm transition hover:bg-slate-50" %>
 
-  <%= button_to "Destroy this attendance", @attendance, method: :delete %>
+      <%= link_to "Back to list",
+                  attendances_path,
+                  class: "inline-flex items-center justify-center rounded-md px-3 py-1.5 font-medium text-slate-600 hover:text-slate-900" %>
+
+      <%= button_to "Delete",
+                    @attendance,
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure?" },
+                    class: "inline-flex items-center justify-center rounded-md bg-rose-600 px-3 py-1.5 font-medium text-white shadow-sm transition hover:bg-rose-700" %>
+    </div>
+  </div>
+
+  <%= render @attendance %>
 </div>

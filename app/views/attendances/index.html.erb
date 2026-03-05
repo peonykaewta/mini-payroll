@@ -1,16 +1,90 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Time attendance" %>
 
-<% content_for :title, "Attendances" %>
+<div class="space-y-6">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
+        Time attendance
+      </h1>
+      <p class="mt-1 text-sm text-slate-500">
+        บันทึกเวลาเข้างาน–ออกงานของพนักงาน พร้อมคำนวณชั่วโมงทำงานและ OT
+      </p>
+    </div>
 
-<h1>Attendances</h1>
+    <div class="flex flex-wrap gap-2">
+      <%= link_to "New attendance",
+                  new_attendance_path,
+                  class: "inline-flex items-center justify-center rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800" %>
+    </div>
+  </div>
 
-<div id="attendances">
-  <% @attendances.each do |attendance| %>
-    <%= render attendance %>
-    <p>
-      <%= link_to "Show this attendance", attendance %>
-    </p>
-  <% end %>
+  <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <table class="min-w-full divide-y divide-slate-200">
+      <thead class="bg-slate-50">
+        <tr>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Employee
+          </th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Date
+          </th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Check in
+          </th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Check out
+          </th>
+          <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Hours
+          </th>
+          <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+            OT
+          </th>
+          <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100 bg-white text-sm">
+        <% @attendances.each do |attendance| %>
+          <% ot = attendance.ot_hours %>
+          <tr class="hover:bg-slate-50/60">
+            <td class="px-4 py-3 align-top">
+              <div class="flex flex-col">
+                <span class="font-medium text-slate-900"><%= attendance.employee&.name || "N/A" %></span>
+                <span class="text-xs text-slate-500">ID: <%= attendance.employee_id %></span>
+              </div>
+            </td>
+            <td class="px-4 py-3 align-top text-slate-700">
+              <%= attendance.check_in&.to_date %>
+            </td>
+            <td class="px-4 py-3 align-top font-mono text-xs text-slate-800">
+              <%= attendance.check_in&.strftime("%H:%M") %>
+            </td>
+            <td class="px-4 py-3 align-top font-mono text-xs text-slate-800">
+              <%= attendance.check_out&.strftime("%H:%M") %>
+            </td>
+            <td class="px-4 py-3 align-top text-right font-mono text-xs text-slate-800">
+              <%= number_with_precision(attendance.working_hours, precision: 3) %> h
+            </td>
+            <td class="px-4 py-3 align-top text-right font-mono text-xs">
+              <span class="<%= ot.positive? ? "text-emerald-700 font-semibold" : "text-slate-400" %>">
+                <%= number_with_precision(ot, precision: 3) %> h
+              </span>
+            </td>
+            <td class="px-4 py-3 align-top text-right text-xs">
+              <div class="inline-flex items-center gap-2">
+                <%= link_to "View",
+                            attendance_path(attendance),
+                            class: "text-slate-600 hover:text-slate-900" %>
+                <%= link_to "Edit",
+                            edit_attendance_path(attendance),
+                            class: "text-slate-400 hover:text-slate-700" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-<%= link_to "New attendance", new_attendance_path %>

@@ -1,19 +1,148 @@
-<p style="color: green"><%= notice %></p>
+<div class="space-y-6">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
+        <%= @employee.name %>
+      </h1>
+      <p class="mt-1 text-sm text-slate-500">
+        ตำแหน่ง <span class="font-medium text-slate-700"><%= @employee.position %></span>
+      </p>
+    </div>
 
-<%= render @employee %>
+    <div class="flex flex-wrap gap-2">
+      <%= link_to "Edit employee",
+                  edit_employee_path(@employee),
+                  class: "inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50" %>
 
-<div>
-  <%= link_to "Edit this employee", edit_employee_path(@employee) %> |
-  <%= link_to "Back to employees", employees_path %>
+      <%= link_to "Back to employees",
+                  employees_path,
+                  class: "inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900" %>
 
-  <%= button_to "Destroy this employee", @employee, method: :delete %>
+      <%= button_to "Delete",
+                    @employee,
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure?" },
+                    class: "inline-flex items-center justify-center rounded-md bg-rose-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-rose-700" %>
+    </div>
+  </div>
+
+  <div class="grid gap-6 md:grid-cols-2">
+    <div>
+      <%= render @employee %>
+    </div>
+
+    <div class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <h2 class="text-sm font-semibold tracking-wide text-slate-700 uppercase">
+        Payroll summary
+      </h2>
+
+      <dl class="mt-4 space-y-3 text-sm">
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">Working days</dt>
+          <dd class="font-mono text-slate-900"><%= number_with_precision(@employee.working_days, precision: 3) %></dd>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">OT hours</dt>
+          <dd class="font-mono text-slate-900"><%= number_with_precision(@employee.ot_hours, precision: 3) %></dd>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">OT pay</dt>
+          <dd class="font-mono text-emerald-700"><%= number_with_precision(@employee.ot_pay, precision: 3) %></dd>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <dt class="text-slate-500">Tax</dt>
+          <dd class="font-mono text-rose-700">-<%= number_with_precision(@employee.tax, precision: 3) %></dd>
+        </div>
+      </dl>
+
+      <div class="mt-5 border-t border-dashed border-slate-200 pt-4">
+        <div class="flex items-baseline justify-between">
+          <span class="text-sm font-semibold text-slate-600">Net pay</span>
+          <span class="font-mono text-lg font-semibold text-emerald-700">
+            <%= number_with_precision(@employee.net_pay, precision: 3) %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="space-y-4">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <h2 class="text-sm font-semibold tracking-wide text-slate-700 uppercase">
+          Time attendance
+        </h2>
+        <p class="mt-1 text-xs text-slate-500">
+          ดูประวัติการเข้างาน–ออกงาน และชั่วโมง OT ของพนักงานคนนี้
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-2 text-xs sm:text-sm">
+        <%= link_to "New attendance",
+                    new_attendance_path,
+                    class: "inline-flex items-center justify-center rounded-md bg-slate-900 px-3 py-1.5 font-medium text-white shadow-sm transition hover:bg-slate-800" %>
+        <%= link_to "View all",
+                    attendances_path,
+                    class: "inline-flex items-center justify-center rounded-md px-3 py-1.5 font-medium text-slate-600 hover:text-slate-900" %>
+      </div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <table class="min-w-full divide-y divide-slate-200">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Date
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Check in
+            </th>
+            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Check out
+            </th>
+            <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+              Hours
+            </th>
+            <th class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">
+              OT
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 bg-white text-sm">
+          <% @employee.attendances.order(check_in: :desc).limit(5).each do |attendance| %>
+            <% ot = attendance.ot_hours %>
+            <tr class="hover:bg-slate-50/60">
+              <td class="px-4 py-3 align-top text-slate-700">
+                <%= attendance.check_in&.to_date %>
+              </td>
+              <td class="px-4 py-3 align-top font-mono text-xs text-slate-800">
+                <%= attendance.check_in&.strftime("%H:%M") %>
+              </td>
+              <td class="px-4 py-3 align-top font-mono text-xs text-slate-800">
+                <%= attendance.check_out&.strftime("%H:%M") %>
+              </td>
+              <td class="px-4 py-3 align-top text-right font-mono text-xs text-slate-800">
+                <%= number_with_precision(attendance.working_hours, precision: 3) %> h
+              </td>
+              <td class="px-4 py-3 align-top text-right font-mono text-xs">
+                <span class="<%= ot.positive? ? "text-emerald-700 font-semibold" : "text-slate-400" %>">
+                  <%= number_with_precision(ot, precision: 3) %> h
+                </span>
+              </td>
+            </tr>
+          <% end %>
+          <% if @employee.attendances.empty? %>
+            <tr>
+              <td colspan="5" class="px-4 py-6 text-center text-xs text-slate-400">
+                ยังไม่มีข้อมูลการเข้างานสำหรับพนักงานคนนี้
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-<div>
-<h3>Payroll</h3>
-
-<p>Working Days: <%= @employee.working_days %></p>
-<p>OT Hours: <%= @employee.ot_hours %></p>
-<p>OT Pay: <%= @employee.ot_pay %></p>
-<p>Tax: <%= @employee.tax %></p>
-<p>Net Pay: <%= @employee.net_pay %></p>
-</div

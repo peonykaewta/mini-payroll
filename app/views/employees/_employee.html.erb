@@ -1,17 +1,22 @@
-<div id="<%= dom_id employee %>">
-  <div>
-    <strong>Name:</strong>
-    <%= employee.name %>
-  </div>
+<div id="<%= dom_id employee %>" class="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+  <h2 class="text-sm font-semibold tracking-wide text-slate-700 uppercase">
+    Employee details
+  </h2>
 
-  <div>
-    <strong>Position:</strong>
-    <%= employee.position %>
-  </div>
+  <dl class="mt-4 space-y-3 text-sm">
+    <div class="flex items-center justify-between">
+      <dt class="text-slate-500">Name</dt>
+      <dd class="font-medium text-slate-900"><%= employee.name %></dd>
+    </div>
 
-  <div>
-    <strong>Base salary:</strong>
-    <%= employee.base_salary %>
-  </div>
+    <div class="flex items-center justify-between">
+      <dt class="text-slate-500">Position</dt>
+      <dd class="font-medium text-slate-900"><%= employee.position %></dd>
+    </div>
 
+    <div class="flex items-center justify-between">
+      <dt class="text-slate-500">Base salary</dt>
+      <dd class="font-mono text-slate-900"><%= number_with_precision(employee.base_salary, precision: 3) %></dd>
+    </div>
+  </dl>
 </div>

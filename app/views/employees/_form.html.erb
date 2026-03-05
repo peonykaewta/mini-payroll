@@ -1,9 +1,11 @@
-<%= form_with(model: employee) do |form| %>
+<%= form_with(model: employee, class: "space-y-6") do |form| %>
   <% if employee.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
+    <div class="rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+      <h2 class="font-semibold">
+        <%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:
+      </h2>
 
-      <ul>
+      <ul class="mt-2 list-disc space-y-1 pl-5">
         <% employee.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,22 +13,38 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div class="sm:col-span-2">
+      <%= form.label :name, class: "block text-sm font-medium text-slate-700" %>
+      <%= form.text_field :name,
+                          class: "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900" %>
+    </div>
+
+    <div>
+      <%= form.label :position, class: "block text-sm font-medium text-slate-700" %>
+      <%= form.text_field :position,
+                          class: "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900" %>
+    </div>
+
+    <div>
+      <%= form.label :base_salary, class: "block text-sm font-medium text-slate-700" %>
+      <%= form.number_field :base_salary,
+                            step: 0.01,
+                            class: "mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :position, style: "display: block" %>
-    <%= form.text_field :position %>
-  </div>
+  <div class="flex items-center justify-end gap-3">
+    <% if employee.persisted? %>
+      <%= link_to "Cancel",
+                  employee_path(employee),
+                  class: "text-sm font-medium text-slate-500 hover:text-slate-800" %>
+    <% else %>
+      <%= link_to "Cancel",
+                  employees_path,
+                  class: "text-sm font-medium text-slate-500 hover:text-slate-800" %>
+    <% end %>
 
-  <div>
-    <%= form.label :base_salary, style: "display: block" %>
-    <%= form.text_field :base_salary %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit class: "inline-flex items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800" %>
   </div>
 <% end %>
