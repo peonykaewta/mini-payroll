@@ -22,7 +22,7 @@
 
 ## Prerequisites
 
-- Ruby 3.x
+- **Ruby 3.x** — แนะนำใช้ [mise](https://mise.jdx.dev) เพื่อจัดการรุ่น Ruby (มี `.mise.toml` ในโปรเจกต์)
 - PostgreSQL
 - Bundler
 
@@ -31,6 +31,9 @@
 ```bash
 # Clone และเข้าโฟลเดอร์โปรเจกต์
 cd mini-payroll
+
+# ถ้าใช้ mise: ติดตั้ง Ruby ตามเวอร์ชันใน .mise.toml
+mise install
 
 # ติดตั้ง gems
 bundle install
@@ -49,7 +52,7 @@ bin/rails db:seed
 bin/rails server
 ```
 
-เปิดเบราว์เซอร์ที่ [http://localhost:3000](http://localhost:3000)
+เปิดเบราว์เซอร์ที่ [http://localhost:3000/employees](http://localhost:3000)
 
 ## Routes
 
@@ -95,7 +98,10 @@ bin/rails test
 
 ### AI tools ที่ใช้
 
-| Tool | ใช้ในส่วนไหนบ้าง |
-|------|-------------------|
+
+| Tool                      | ใช้ในส่วนไหนบ้าง                                                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------- |
 | **Cursor (AI Assistant)** | ช่วยเขียน/แก้ code ในส่วนของ syntax และ UI design, อัปเดต README, แนะนำโครงสร้างและ best practices |
-| **ChatGPT** | list step การติดตั้ง ruby on rails |
+| **ChatGPT**               | list step การติดตั้ง ruby on rails                                                                 |
+
+

@@ -1,0 +1,4 @@
+# mise (https://mise.jdx.dev) — รุ่น Ruby ที่ใช้ในโปรเจกต์
+# ใช้คำสั่ง: mise install
+[tools]
+ruby = "3.4.7"
