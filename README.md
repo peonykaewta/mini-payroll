@@ -1,6 +1,10 @@
 # Mini Payroll System
 
 ระบบคำนวณเงินเดือนขนาดเล็ก สร้างด้วย Ruby on Rails
+<img width="1079" height="513" alt="image" src="https://github.com/user-attachments/assets/192f4ec3-28b4-4d5d-85b8-9a89fae34787" />
+<img width="1062" height="626" alt="image" src="https://github.com/user-attachments/assets/4d19c5cb-39f6-48c5-861e-1b863e3c02d9" />
+<img width="1061" height="512" alt="image" src="https://github.com/user-attachments/assets/5e1fddd6-fb2f-4863-8654-b111583a3a45" />
+
 
 ## Features
 
