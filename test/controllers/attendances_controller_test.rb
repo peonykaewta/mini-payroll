@@ -17,7 +17,13 @@ class AttendancesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create attendance" do
     assert_difference("Attendance.count") do
-      post attendances_url, params: { attendance: { check_in: @attendance.check_in, check_out: @attendance.check_out, employee_id: @attendance.employee_id } }
+      post attendances_url, params: {
+        attendance: {
+          employee_id: @attendance.employee_id,
+          check_in: 1.day.since(@attendance.check_in),
+          check_out: 1.day.since(@attendance.check_out)
+        }
+      }
     end
 
     assert_redirected_to attendance_url(Attendance.last)

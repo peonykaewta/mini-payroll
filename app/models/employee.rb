@@ -1,5 +1,5 @@
 class Employee < ApplicationRecord
-    has_many :attendances
+    has_many :attendances, dependent: :destroy
 
     def working_days
         attendances.count
