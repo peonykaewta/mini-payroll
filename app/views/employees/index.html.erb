@@ -35,7 +35,7 @@
               Base salary
             </p>
             <p class="font-mono text-sm font-semibold text-slate-900">
-              <%= number_with_precision(employee.base_salary, precision: 3) %>
+              <%= number_to_currency(employee.base_salary, unit: "฿", precision: 2) %>
             </p>
           </div>
         </div>
@@ -43,11 +43,11 @@
         <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
           <p>
             Working days:
-            <span class="font-mono text-slate-800"><%= number_with_precision(employee.working_days, precision: 3) %></span>
+            <span class="font-mono text-slate-800"><%= number_with_precision(employee.working_days, precision: 2) %></span>
           </p>
           <p>
             Net pay:
-            <span class="font-mono font-semibold text-emerald-700"><%= number_with_precision(employee.net_pay, precision: 3) %></span>
+            <span class="font-mono font-semibold text-emerald-700"><%= number_to_currency(employee.net_pay, unit: "฿", precision: 2) %></span>
           </p>
         </div>
 

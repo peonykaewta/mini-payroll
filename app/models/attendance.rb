@@ -16,12 +16,15 @@ class Attendance < ApplicationRecord
   end
 
   def working_hours
-    return 0 if check_out.nil?
-    (check_out - check_in) / 3600
+    return 0 if check_in.nil? || check_out.nil?
+    seconds = check_out - check_in
+    return 0 if seconds.nil? || seconds <= 0
+    (seconds / 3600.0).to_f
   end
-  
+
   def ot_hours
     hours = working_hours
+    return 0 if hours.nil? || !hours.is_a?(Numeric) || hours <= 0
     hours > 8 ? hours - 8 : 0
   end
 end

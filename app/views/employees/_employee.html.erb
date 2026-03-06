@@ -16,7 +16,7 @@
 
     <div class="flex items-center justify-between">
       <dt class="text-slate-500">Base salary</dt>
-      <dd class="font-mono text-slate-900"><%= number_with_precision(employee.base_salary, precision: 3) %></dd>
+      <dd class="font-mono text-slate-900"><%= number_to_currency(employee.base_salary, unit: "฿", precision: 2) %></dd>
     </div>
   </dl>
 </div>
