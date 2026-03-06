@@ -4,7 +4,7 @@ class Employee < ApplicationRecord
     def working_days
         attendances.count
     end
-      
+
     def ot_hours
         attendances.sum { |a| a.ot_hours.to_f }
     end
@@ -23,16 +23,16 @@ class Employee < ApplicationRecord
         income = (base_salary || 0) + (ot_pay || 0)
         return 0 if income.nil? || income <= 0
         tax = 0
-      
+
         if income > 50000
           tax += (income - 50000) * 0.10
           income = 50000
         end
-      
+
         if income > 30000
           tax += (income - 30000) * 0.05
         end
-      
+
         tax
     end
 
